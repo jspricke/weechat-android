@@ -51,6 +51,7 @@ import com.ubergeek42.WeechatAndroid.fragments.BufferFragment
 import com.ubergeek42.WeechatAndroid.fragments.BufferFragmentContainer
 import com.ubergeek42.WeechatAndroid.media.CachePersist
 import com.ubergeek42.WeechatAndroid.notifications.shortcuts
+import com.ubergeek42.WeechatAndroid.service.Events.SendMessageEvent
 import com.ubergeek42.WeechatAndroid.service.Events.ExceptionEvent
 import com.ubergeek42.WeechatAndroid.service.Events.StateChangedEvent
 import com.ubergeek42.WeechatAndroid.service.P
@@ -410,6 +411,7 @@ class WeechatActivity : AppCompatActivity(), CutePageChangeListener,
             findItem(R.id.menu_search).isVisible = bufferVisible
             findItem(R.id.menu_nicklist).isVisible = bufferVisible
             findItem(R.id.menu_close).isVisible = bufferVisible
+            findItem(R.id.menu_delete).isVisible = bufferVisible
             findItem(R.id.menu_filter_lines).isChecked = P.filterLines
             findItem(R.id.menu_dark_theme).isVisible = P.themeSwitchEnabled
             findItem(R.id.menu_dark_theme).isChecked = P.darkThemeActive
@@ -466,6 +468,9 @@ class WeechatActivity : AppCompatActivity(), CutePageChangeListener,
             }
             R.id.menu_close -> {
                 pagerAdapter.currentBufferFragment?.onBufferClosed()
+            }
+            R.id.menu_delete -> {
+                SendMessageEvent.fire("input 0x%x /close", pagerAdapter.currentBufferPointer)
             }
             R.id.menu_hotlist -> {
                 // see method below
